@@ -1,0 +1,28 @@
+name: stockmonitorapp
+prefect-version: "3.0.0"
+
+build: []
+push: []
+pull: []
+
+deployments:
+  - name: data-ingestion-daily
+    description: Daily stock data ingestion for AAPL and MSFT.
+    version: "1.0.0"
+    tags:
+      - stocks
+      - ingestion
+    entrypoint: src/pipelines/ingest.py:data_ingestion_pipeline
+    parameters:
+      ticker:
+        - AAPL
+        - MSFT
+      period: 1y
+      save_to_file: true
+    work_pool:
+      name: local-process
+      work_queue_name: default
+    schedules:
+      - cron: "0 9 * * 1-5"
+        timezone: "Asia/Kolkata"
+        active: true

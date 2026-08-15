@@ -1,0 +1,34 @@
+# Feature Engineering Configuration
+# Implements: FR-FE-004
+#
+# Set enabled: false for any feature group to skip it entirely.
+# Parameter changes take effect on the next pipeline run without touching code.
+
+calendar_features:
+  enabled: true
+
+lag_features:
+  enabled: true
+  lags: [1, 5, 10, 20]
+
+rsi:
+  enabled: true
+  window: 14
+
+macd:
+  enabled: true
+  fast: 12
+  slow: 26
+  signal: 9
+
+bollinger_bands:
+  enabled: true
+  window: 20
+  num_std: 2.0
+
+atr:
+  enabled: true
+  window: 14
+
+output:
+  drop_na: false

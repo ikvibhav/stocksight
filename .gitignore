@@ -1,0 +1,28 @@
+# python cache files
+*.pyc
+*.pyo
+*.__pycache__
+__pycache__/
+.pytest_cache/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Files
+*.csv
+*.zip
+
+# Misc
+backups/
+datasets/
+database/
+tokens.txt
+
+# Exceptions
+!llm/qna_assistant/reviews.csv
