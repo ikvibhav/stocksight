@@ -4,7 +4,7 @@ An end-to-end **MLOps** project built on S&P500 data, covering the full ML lifec
 
 | | |
 |---|---|
-| **v0** | Live Dashboard [stockmonitor-ikv.streamlit.app](https://stockmonitor-ikv.streamlit.app) |
+| **v0** | Live Dashboard [stocksight-ikv.streamlit.app](https://stocksight-ikv.streamlit.app) |
 | **v1** | In development - multi-model prediction, MLflow experiment tracking, and Evidently drift monitoring |
 
 **Use cases**
@@ -15,6 +15,8 @@ An end-to-end **MLOps** project built on S&P500 data, covering the full ML lifec
 ---
 
 ## v0 — Live
+
+![Stock Sight v0](./docs/images/1_stocksight_readme.png)
 
 ### Features
 
@@ -38,8 +40,8 @@ streamlit run src/app.py
 ### Run with Docker
 
 ```sh
-docker build -t stockmonitor -f infra/streamlit/Dockerfile .
-docker run -p 8501:8501 stockmonitor
+docker build -t stocksight -f infra/streamlit/Dockerfile .
+docker run -p 8501:8501 stocksight
 ```
 
 ---
@@ -87,7 +89,7 @@ make up             # start all services
 ## Project Structure
 
 ```
-stockmonitorapp/
+stocksight/
 ├── src/                            # All Python source code
 │   ├── app.py                      # Streamlit dashboard
 │   ├── models/                     # ML model implementations (Phase 4)
