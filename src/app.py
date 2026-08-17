@@ -3,9 +3,8 @@ import seaborn as sns
 import streamlit as st
 from matplotlib import style
 
-from common.utils import yearly_percentage_change
 from common.base_stock_reader import Snp500Reader
-from common.utils import correlation_analysis
+from common.utils import correlation_analysis, yearly_percentage_change
 from features.compute import (
     compute_atr,
     compute_bollinger_bands,

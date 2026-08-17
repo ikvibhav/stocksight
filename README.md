@@ -31,7 +31,7 @@ An end-to-end **MLOps** project built on S&P500 data, covering the full ML lifec
 ### Quick Start
 
 ```sh
-python3 -m venv --prompt stocktracker venv
+python3 -m venv --prompt stocksight venv
 source venv/bin/activate
 pip install -r requirements.txt
 streamlit run src/app.py

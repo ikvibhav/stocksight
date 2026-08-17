@@ -100,11 +100,18 @@ def validate_data(data: pd.DataFrame) -> bool:
     # we can allow nulls in the last row but not in the historical data
     today_str = pd.Timestamp.now().strftime("%Y-%m-%d")
     yesterday_str = (pd.Timestamp.now() - pd.Timedelta(days=1)).strftime("%Y-%m-%d")
-    if data.index[-1].strftime("%Y-%m-%d") == today_str or data.index[-1].strftime("%Y-%m-%d") == yesterday_str:
-        print("Latest data point is from today or yesterday, allowing nulls in the last row if present.")
+    if (
+        data.index[-1].strftime("%Y-%m-%d") == today_str
+        or data.index[-1].strftime("%Y-%m-%d") == yesterday_str
+    ):
+        print(
+            "Latest data point is from today or yesterday, allowing nulls in the last row if present."
+        )
         past_data = data.iloc[:-1]
         if past_data[EXPECTED_COLUMNS].isnull().any().any():
-            print("Data validation failed: Null values found in the expected columns of historical data.")
+            print(
+                "Data validation failed: Null values found in the expected columns of historical data."
+            )
             return False
     else:
         if data[EXPECTED_COLUMNS].isnull().any().any():

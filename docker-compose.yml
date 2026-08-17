@@ -4,7 +4,7 @@ services:
   # Shared backend database for MLflow (experiment metadata) and Prefect (flow runs)
   postgres:
     image: postgres:15
-    container_name: stockmonitor_postgres
+    container_name: stocksight_postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -19,13 +19,13 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - stockmonitor_net
+      - stocksight_net
 
   # ── MinIO ────────────────────────────────────────────────────────────────────
   # S3-compatible object store used by MLflow to persist model artifacts
   minio:
     image: minio/minio:latest
-    container_name: stockmonitor_minio
+    container_name: stocksight_minio
     restart: unless-stopped
     command: server /data --console-address ":9001"
     environment:
@@ -42,7 +42,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - stockmonitor_net
+      - stocksight_net
 
   # ── MLflow ───────────────────────────────────────────────────────────────────
   # Experiment tracking server and model registry
@@ -51,7 +51,7 @@ services:
     build:
       context: .
       dockerfile: infra/mlflow/Dockerfile
-    container_name: stockmonitor_mlflow
+    container_name: stocksight_mlflow
     restart: unless-stopped
     depends_on:
       postgres:
@@ -77,14 +77,14 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - stockmonitor_net
+      - stocksight_net
 
   # ── Prefect ──────────────────────────────────────────────────────────────────
   # Pipeline orchestration server — schedules and monitors data ingestion,
   # training, and monitoring flows
   prefect:
     image: prefecthq/prefect:3-latest
-    container_name: stockmonitor_prefect
+    container_name: stocksight_prefect
     restart: unless-stopped
     depends_on:
       postgres:
@@ -101,7 +101,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - stockmonitor_net
+      - stocksight_net
 
   # ── FastAPI ──────────────────────────────────────────────────────────────────
   # Prediction service — loads the Production model from MLflow registry
@@ -111,7 +111,7 @@ services:
     build:
       context: .
       dockerfile: api/Dockerfile
-    container_name: stockmonitor_api
+    container_name: stocksight_api
     restart: unless-stopped
     depends_on:
       mlflow:
@@ -132,7 +132,7 @@ services:
     volumes:
       - ./monitoring/reports:/app/monitoring/reports
     networks:
-      - stockmonitor_net
+      - stocksight_net
     profiles:
       - phase5  # only starts when Phase 5 api/Dockerfile exists
 
@@ -143,7 +143,7 @@ services:
     build:
       context: .
       dockerfile: infra/streamlit/Dockerfile
-    container_name: stockmonitor_streamlit
+    container_name: stocksight_streamlit
     restart: unless-stopped
     depends_on:
       - prefect
@@ -161,7 +161,7 @@ services:
     volumes:
       - ./monitoring/reports:/app/monitoring/reports
     networks:
-      - stockmonitor_net
+      - stocksight_net
 
 # ── Volumes ───────────────────────────────────────────────────────────────────
 volumes:
@@ -170,5 +170,5 @@ volumes:
 
 # ── Networks ──────────────────────────────────────────────────────────────────
 networks:
-  stockmonitor_net:
+  stocksight_net:
     driver: bridge
